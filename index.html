@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Kalam" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> 
+    <title>QueerBeer</title>
+</head>
+
+    <body>
+
+        <div id="app">
+            <br> 
+            <h1> Ontdek de smaken van QueerBeer! </h1>
+             
+            <!-- winkelwagen niet laten zien -->
+            <div  v-if="!show_winkelwagen">
+                <button class="winkelwagen" v-on:click="show_winkelwagen= true">
+                    <img class="icon" src="img/cart.svg"> <br> Winkelwagen ({{aantal_items}})
+                </button>                      
+            </div>
+        
+            <!-- winkelwagen laten zien -->
+            <div v-if="show_winkelwagen">
+                <button class="winkelwagen" v-on:click="show_winkelwagen= false ">
+                    <img class="icon" src="img/cart.svg"><br> Winkelwagen ({{aantal_items}})
+                </button>
+
+                <div class="winkelwagen_box"> 
+                    <!-- Winkelwagen leeg-->
+                    <div  v-if= "bestel_lijst==''"> Uw mandje is nog leeg.</div>
+                    <!-- Winkelwagen niet leeg-->
+                    <div class="mijn_producten" v-else> 
+                        <h3> Mijn producten: </h3>
+                        <div v-for="item in bestel_lijst"> 
+                            <li> {{item.naam}} </li>
+                        </div>
+                        <br> 
+                            <button class="button_fout" v-on:click="lijstVerwijderen(bestel_lijst, naam)"> Annuleren </button>
+                            <button class="button_goed" v-on:click="afrekenen()" >Afrekenen</button>
+                        <br>
+                        <br>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="container"> 
+
+                <div class="buttons_container"> 
+                    <button  class="bierkeuze_button" v-on:click=" bierkeuze='IPA' "> IPA </button>
+                    <button  class="bierkeuze_button" v-on:click=" bierkeuze='trippel' "> Trippel </button>
+                    <button  class="bierkeuze_button" v-on:click=" bierkeuze='dubbel' "> Dubbel </button>
+                </div>
+
+            <!-- verschillende bierkeuzes-->
+            <div class="bierkeuze" v-if="bierkeuze=='IPA'" > 
+                <div v-for="data in bieren">
+                    <div class="tekst_bierkeuze" v-if="data.soort=='IPA'"> 
+                        <img class= "bierfoto" :src="data.img">
+                        <h3> {{data.naam}} </h3>
+                        <small>  {{data.omschrijving}} <br> Percentage: {{data.percentage}} 
+                        </small> <br><br>
+                        <button class="bierkeuze_button_fout" v-on:click="bierkeuze=''"> x </button>
+                        <button class="bierkeuze_button_goed" v-on:click="toevoegenWinkelwagen(bestel_lijst,data.naam),index(aantal_items)"> Toevoegen aan winkelwagen </button>  
+                        <br>    
+                    </div> 
+                </div>
+            </div>
+
+            <div class="bierkeuze" v-else-if="bierkeuze=='trippel'" >    
+                <div v-for="data in bieren">
+                    <div v-if="data.soort=='trippel'"> 
+                        <img class= "bierfoto" :src="data.img">
+                        <h3> {{data.naam}} </h3>
+                        <small>  {{data.omschrijving}} <br> Percentage: {{data.percentage}} 
+                        </small> <br><br>
+                        <button  class="bierkeuze_button_fout" v-on:click="bierkeuze=''"> x </button>
+                        <button  class="bierkeuze_button_goed" v-on:click="toevoegenWinkelwagen(bestel_lijst,data.naam),index(aantal_items)"> Toevoegen aan winkelwagen </button> 
+                    </div> 
+                </div>
+            </div>
+
+            <div class="bierkeuze" v-else-if="bierkeuze=='dubbel'" > 
+                <div v-for="data in bieren">
+                    <div v-if="data.soort=='dubbel'">
+                        <img class= "bierfoto" :src="data.img">
+                        <h3> {{data.naam}} </h3>
+                        <small>  {{data.omschrijving}} <br> Percentage: {{data.percentage}} 
+                        </small> <br><br>
+                        <button  class="bierkeuze_button_fout" v-on:click="bierkeuze=''"> x </button>
+                        <button  class="bierkeuze_button_goed" v-on:click="toevoegenWinkelwagen(bestel_lijst,data.naam),index(aantal_items)"> Toevoegen aan winkelwagen </button>
+                    </div> 
+                </div>   
+            </div>
+
+            <div class="welkom_scherm" v-else> 
+                <div> 
+                    <h3> Welkom bij de webshop van QueerBeer! </h3>
+                    <p> Wij hebben voor u drie verschillende biertjes beschikbaar in onze webshop waar u een keuze uit kunt maken. </p> 
+                    <p> Het concept van QueerBeer is ontstaan door het idee dat bier mensen samenbrengt en zorgt voor nieuwe gesprekken, 
+                    op deze manier willen we er voor zorgen dat er meer open wordt gesproken over seksualiteit.   
+                    </p>
+                </div>
+            </div>
+
+        </div>
+        </div>
+
+
+        <div class= "bubbles_animatie">
+            <ul class="bubbles"> 
+
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+            
+            </ul>
+
+        </div>
+
+        <script src="javascript.js"></script>
+
+    </body>
+</html>
